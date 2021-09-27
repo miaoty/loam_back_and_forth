@@ -184,14 +184,14 @@ void AccumulateIMUShift()
 void laserCloudHandler(const sensor_msgs::PointCloud2ConstPtr& laserCloudIn2)
 {
   if (!systemInited) {
-    initTime = laserCloudIn2->header.stamp.toSec();
+    initTime = laserCloudIn2->header.stamp.toSec();//系统初始时间
     imuPointerFront = (imuPointerLast + 1) % imuQueLength;
     systemInited = true;
   }
 
   timeScanLast = timeScanCur;
   timeScanCur = laserCloudIn2->header.stamp.toSec();
-  timeLasted = timeScanCur - initTime;
+  timeLasted = timeScanCur - initTime;//每一帧的时间
   pcl::PointCloud<pcl::PointXYZ>::Ptr laserCloudIn(new pcl::PointCloud<pcl::PointXYZ>());
   pcl::fromROSMsg(*laserCloudIn2, *laserCloudIn);
   int cloudSize = laserCloudIn->points.size();
